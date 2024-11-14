@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = src  # The directory containing your application code
+
+[report]
+show_missing = True
+skip_covered = True

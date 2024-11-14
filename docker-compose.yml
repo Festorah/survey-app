@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  survey-app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${MONGODB_URI}
+    depends_on:
+      - mongo
+    networks:
+      - survey-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_DATABASE: survey_db
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - survey-network
+
+  test:
+    build: .
+    command: pytest --cov=src --cov-report=term-missing
+    environment:
+      - DATABASE_URL=${MONGODB_URI}
+    depends_on:
+      - mongo
+    networks:
+      - survey-network
+
+networks:
+  survey-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
