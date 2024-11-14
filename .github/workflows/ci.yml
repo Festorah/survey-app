@@ -8,6 +8,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      DEBUG: ${{ secrets.DEBUG }}
+      HOST: ${{ secrets.HOST }}
+      PORT: ${{ secrets.PORT }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
