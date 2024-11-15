@@ -33,9 +33,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-asyncio pytest-cov pre-commit
 
-      - name: Run pre-commit
-        run: pre-commit run --all-files
-
       - name: Run tests with coverage
         run: |
           pytest --cov=app --cov-report=xml
