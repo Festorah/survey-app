@@ -8,7 +8,7 @@
 
 (function() {
     "use strict";
-  
+
     /**
      * Apply .scrolled class to the body as the page is scrolled down
      */
@@ -18,22 +18,22 @@
       if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
       window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
     }
-  
+
     document.addEventListener('scroll', toggleScrolled);
     window.addEventListener('load', toggleScrolled);
-  
+
     /**
      * Mobile nav toggle
      */
     const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-  
+
     function mobileNavToogle() {
       document.querySelector('body').classList.toggle('mobile-nav-active');
       mobileNavToggleBtn.classList.toggle('bi-list');
       mobileNavToggleBtn.classList.toggle('bi-x');
     }
     mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
-  
+
     /**
      * Hide mobile nav on same-page/hash links
      */
@@ -43,9 +43,9 @@
           mobileNavToogle();
         }
       });
-  
+
     });
-  
+
     /**
      * Toggle mobile nav dropdowns
      */
@@ -57,7 +57,7 @@
         e.stopImmediatePropagation();
       });
     });
-  
+
     /**
      * Preloader
      */
@@ -67,12 +67,12 @@
         preloader.remove();
       });
     }
-  
+
     /**
      * Scroll top button
      */
     let scrollTop = document.querySelector('.scroll-top');
-  
+
     function toggleScrollTop() {
       if (scrollTop) {
         window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
@@ -85,10 +85,10 @@
         behavior: 'smooth'
       });
     });
-  
+
     window.addEventListener('load', toggleScrollTop);
     document.addEventListener('scroll', toggleScrollTop);
-  
+
     /**
      * Animation on scroll function and init
      */
@@ -101,7 +101,7 @@
       });
     }
     window.addEventListener('load', aosInit);
-  
+
     /**
      * Init swiper sliders
      */
@@ -110,7 +110,7 @@
         let config = JSON.parse(
           swiperElement.querySelector(".swiper-config").innerHTML.trim()
         );
-  
+
         if (swiperElement.classList.contains("swiper-tab")) {
           initSwiperWithCustomPagination(swiperElement, config);
         } else {
@@ -118,14 +118,14 @@
         }
       });
     }
-  
+
     window.addEventListener("load", initSwiper);
-  
+
     /**
      * Initiate Pure Counter
      */
     new PureCounter();
-  
+
     /**
      * Init swiper tabs sliders
      */
@@ -136,23 +136,23 @@
           let config = JSON.parse(
             swiperElement.querySelector(".swiper-config").innerHTML.trim()
           );
-  
+
           const dotsContainer = swiperElement
             .closest("section")
             .querySelector(".js-custom-dots");
           if (!dotsContainer) return;
-  
+
           const customDots = dotsContainer.querySelectorAll("a");
-  
+
           // Remove the default pagination setting
           delete config.pagination;
-  
+
           const swiperInstance = new Swiper(swiperElement, config);
-  
+
           swiperInstance.on("slideChange", function() {
             updateSwiperTabsPagination(swiperInstance, customDots);
           });
-  
+
           customDots.forEach((dot, index) => {
             dot.addEventListener("click", function(e) {
               e.preventDefault();
@@ -160,11 +160,11 @@
               updateSwiperTabsPagination(swiperInstance, customDots);
             });
           });
-  
+
           updateSwiperTabsPagination(swiperInstance, customDots);
         });
     }
-  
+
     function updateSwiperTabsPagination(swiperInstance, customDots) {
       const activeIndex = swiperInstance.realIndex;
       customDots.forEach((dot, index) => {
@@ -175,16 +175,16 @@
         }
       });
     }
-  
+
     window.addEventListener("load", initSwiperTabs);
-  
+
     /**
      * Initiate glightbox
      */
     const glightbox = GLightbox({
       selector: '.glightbox'
     });
-  
+
     /**
      * Init isotope layout and filters
      */
@@ -192,7 +192,7 @@
       let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
       let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
       let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
-  
+
       let initIsotope;
       imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
         initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
@@ -202,7 +202,7 @@
           sortBy: sort
         });
       });
-  
+
       isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
         filters.addEventListener('click', function() {
           isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
@@ -215,7 +215,7 @@
           }
         }, false);
       });
-  
+
     });
-  
+
   })();

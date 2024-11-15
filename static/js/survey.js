@@ -5,7 +5,7 @@ document.getElementById("surveyForm").onsubmit = async function(event) {
     document.getElementById("loadingSpinner").style.display = "block";
 
     const userId = document.getElementById("userId").value;
-    
+
     // Validate User ID
     const userIdPattern = /^[a-zA-Z0-9_]{5,}$/;
     if (!userIdPattern.test(userId)) {
@@ -42,7 +42,7 @@ document.getElementById("surveyForm").onsubmit = async function(event) {
 
         // Show the reset button after successful submission
         document.getElementById("resetButton").style.display = "inline-block";
-        
+
     } else {
         messageElement.innerText = result.error || "There was an error submitting the survey.";
     }
@@ -116,7 +116,7 @@ function titleCase(str) {
 document.getElementById("resetButton").onclick = function() {
     // Reset the form
     document.getElementById("surveyForm").reset();
-    
+
     // Clear any displayed messages or results
     document.getElementById("responseMessage").innerText = "";
     document.getElementById("resultsSection").innerHTML = "";

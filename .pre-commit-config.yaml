@@ -1,0 +1,19 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ".*json$|.*txt$|.*csv|.*md"
+      - id: check-yaml
+      - id: no-commit-to-branch
+        args:
+          - --branch=development
+          - --branch=master
+          - --branch=main
+          - --branch=production
+      - id: check-merge-conflict
+      - id: check-ast
+
+files: '.*'
