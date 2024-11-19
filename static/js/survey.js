@@ -1,3 +1,19 @@
+function typewriterEffect(element, text, delay = 50, callback = null) {
+    let index = 0;
+
+    function write() {
+        if (index < text.length) {
+            element.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(write, delay);
+        } else if (callback) {
+            callback(); // Execute the callback function after typing is complete
+        }
+    }
+
+    write();
+}
+
 document.getElementById("surveyForm").onsubmit = async function(event) {
     event.preventDefault();
 
@@ -50,59 +66,73 @@ document.getElementById("surveyForm").onsubmit = async function(event) {
 
 function displayResults(data) {
     const resultsSection = document.getElementById("resultsSection");
-    resultsSection.innerHTML = "";  // Clear any previous results
+    resultsSection.innerHTML = ""; // Clear any previous results
 
     if (data.status === "success") {
-        const rowDiv = document.createElement("div");
-        rowDiv.classList.add("row");
+        // Display the main message dynamically
+        const messageTitle = document.createElement("h5");
+        messageTitle.classList.add("text-center", "mb-4");
+        resultsSection.appendChild(messageTitle);
 
-        // Survey Analysis Section
-        const analysisCol = document.createElement("div");
-        analysisCol.classList.add("col-md-6", "mb-4");
+        // Use typewriter effect for the main message
+        typewriterEffect(messageTitle, data.message, 50, () => {
+            // Create a row for the sections after the main message is typed
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("row");
 
-        const analysisTitle = document.createElement("h5");
-        analysisTitle.classList.add("text-center");
-        analysisTitle.innerText = "Survey Analysis";
-        analysisCol.appendChild(analysisTitle);
+            // Survey Analysis Section
+            const analysisCol = document.createElement("div");
+            analysisCol.classList.add("col-md-6", "mb-4");
 
-        const analysisList = document.createElement("ul");
-        analysisList.classList.add("list-group");
+            const analysisTitle = document.createElement("h5");
+            analysisTitle.classList.add("text-left", "fw-bold");
+            analysisTitle.innerText = "Survey Analysis";
+            analysisCol.appendChild(analysisTitle);
 
-        for (const [key, value] of Object.entries(data.analysis)) {
-            const listItem = document.createElement("li");
-            listItem.classList.add("list-group-item", "text-left");
-            listItem.innerHTML = `<strong>${titleCase(key)}:</strong> ${value}`;
-            analysisList.appendChild(listItem);
-        }
-        analysisCol.appendChild(analysisList);
-        rowDiv.appendChild(analysisCol);
+            const analysisList = document.createElement("ul");
+            analysisList.classList.add("list-group");
 
-        // Survey Statistics Section
-        const statisticsCol = document.createElement("div");
-        statisticsCol.classList.add("col-md-6", "mb-4");
+            for (const [key, value] of Object.entries(data.analysis)) {
+                const listItem = document.createElement("li");
+                listItem.classList.add("list-group-item", "text-left");
 
-        const statisticsTitle = document.createElement("h5");
-        statisticsTitle.classList.add("text-center");
-        statisticsTitle.innerText = "Survey Statistics";
-        statisticsCol.appendChild(statisticsTitle);
+                // Dynamically display each field using typewriter effect
+                typewriterEffect(listItem, `${key.replace('_', ' ')}: ${value}`, 30);
+                analysisList.appendChild(listItem);
+            }
+            analysisCol.appendChild(analysisList);
+            rowDiv.appendChild(analysisCol);
 
-        const statisticsList = document.createElement("ul");
-        statisticsList.classList.add("list-group");
+            // Survey Statistics Section
+            const statisticsCol = document.createElement("div");
+            statisticsCol.classList.add("col-md-6", "mb-4");
 
-        for (const [key, value] of Object.entries(data.statistics)) {
-            const listItem = document.createElement("li");
-            listItem.classList.add("list-group-item", "text-left");
-            listItem.innerHTML = `<strong>${titleCase(key)}:</strong> ${value}`;
-            statisticsList.appendChild(listItem);
-        }
-        statisticsCol.appendChild(statisticsList);
-        rowDiv.appendChild(statisticsCol);
+            const statisticsTitle = document.createElement("h5");
+            statisticsTitle.classList.add("text-left", "fw-bold");
+            statisticsTitle.innerText = "Survey Statistics";
+            statisticsCol.appendChild(statisticsTitle);
 
-        resultsSection.appendChild(rowDiv);
+            const statisticsList = document.createElement("ul");
+            statisticsList.classList.add("list-group");
+
+            for (const [key, value] of Object.entries(data.statistics)) {
+                const listItem = document.createElement("li");
+                listItem.classList.add("list-group-item", "text-left");
+
+                // Dynamically display each field using typewriter effect
+                typewriterEffect(listItem, `${key.replace('_', ' ')}: ${value}`, 30);
+                statisticsList.appendChild(listItem);
+            }
+            statisticsCol.appendChild(statisticsList);
+            rowDiv.appendChild(statisticsCol);
+
+            // Append the row containing both columns to the results section
+            resultsSection.appendChild(rowDiv);
+        });
     } else {
         const errorTitle = document.createElement("p");
         errorTitle.classList.add("text-danger", "text-center");
-        errorTitle.innerText = "There was an error processing the survey.";
+        typewriterEffect(errorTitle, "There was an error processing the survey.", 50);
         resultsSection.appendChild(errorTitle);
     }
 }
